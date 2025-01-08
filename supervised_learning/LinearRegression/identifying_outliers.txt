@@ -1,0 +1,116 @@
+Outliers can significantly affect regression models by distorting the relationship between the independent and dependent variables. Detecting and handling outliers is an essential part of data cleaning before building a regression model.
+
+### Steps to Detect Outliers:
+
+Here are some common methods to identify outliers:
+
+### 1. **Visualizing with Box Plots**:
+Box plots are useful for identifying outliers because they show the distribution of data and highlight values that fall outside the typical range (usually 1.5 times the interquartile range).
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Create a box plot for each relevant column
+sns.boxplot(x=df['studytime'])
+plt.title('Boxplot for Study Time')
+plt.show()
+
+sns.boxplot(x=df['G3'])
+plt.title('Boxplot for Grade (G3)')
+plt.show()
+```
+
+In these plots, any data points outside the whiskers (typically 1.5 times the interquartile range) are considered potential outliers.
+
+### 2. **Using Z-Scores**:
+Z-scores measure how many standard deviations a data point is from the mean. Data points with Z-scores above 3 or below -3 are often considered outliers.
+
+```python
+from scipy.stats import zscore
+
+# Calculate Z-scores for the relevant columns
+z_scores = zscore(df[['studytime', 'G3']])
+
+# Display Z-scores
+print(z_scores)
+
+# Identify data points with Z-scores greater than 3 or less than -3
+outliers = (z_scores > 3) | (z_scores < -3)
+print(df[outliers])  # Show the rows with outliers
+```
+
+### 3. **Using the IQR (Interquartile Range)**:
+Outliers can also be detected using the IQR method. The IQR is the difference between the 25th percentile (Q1) and the 75th percentile (Q3). Outliers are typically defined as values that are below \( Q1 - 1.5 \times \text{IQR} \) or above \( Q3 + 1.5 \times \text{IQR} \).
+
+```python
+# Calculate IQR for 'studytime' and 'G3'
+Q1_studytime = df['studytime'].quantile(0.25)
+Q3_studytime = df['studytime'].quantile(0.75)
+IQR_studytime = Q3_studytime - Q1_studytime
+
+Q1_G3 = df['G3'].quantile(0.25)
+Q3_G3 = df['G3'].quantile(0.75)
+IQR_G3 = Q3_G3 - Q1_G3
+
+# Define the outlier thresholds
+lower_bound_studytime = Q1_studytime - 1.5 * IQR_studytime
+upper_bound_studytime = Q3_studytime + 1.5 * IQR_studytime
+
+lower_bound_G3 = Q1_G3 - 1.5 * IQR_G3
+upper_bound_G3 = Q3_G3 + 1.5 * IQR_G3
+
+# Identify outliers
+outliers_studytime = df[(df['studytime'] < lower_bound_studytime) | (df['studytime'] > upper_bound_studytime)]
+outliers_G3 = df[(df['G3'] < lower_bound_G3) | (df['G3'] > upper_bound_G3)]
+
+print(outliers_studytime)
+print(outliers_G3)
+```
+
+### 4. **Visualizing with Scatter Plots**:
+Scatter plots can also help in visualizing the relationship between two variables and identifying if there are any extreme values or outliers.
+
+```python
+plt.scatter(df['studytime'], df['G3'])
+plt.xlabel('Study Time')
+plt.ylabel('Grade (G3)')
+plt.title('Study Time vs Grade')
+plt.show()
+```
+
+### Handling Outliers:
+Once you've identified the outliers, you have several options for dealing with them:
+
+1. **Remove Outliers**:
+   If the outliers are erroneous or not relevant to the model, you can remove them.
+   
+   ```python
+   df_no_outliers = df[(df['studytime'] >= lower_bound_studytime) & (df['studytime'] <= upper_bound_studytime)]
+   df_no_outliers = df_no_outliers[(df_no_outliers['G3'] >= lower_bound_G3) & (df_no_outliers['G3'] <= upper_bound_G3)]
+   ```
+
+2. **Transform the Data**:
+   Sometimes, applying a transformation (e.g., log transformation) can reduce the impact of outliers.
+
+   ```python
+   df['studytime'] = df['studytime'].apply(lambda x: np.log(x + 1))  # Log transform
+   ```
+
+3. **Cap or Winsorize Outliers**:
+   You can limit the extreme values by capping them at a certain threshold.
+
+   ```python
+   df['studytime'] = df['studytime'].clip(lower=lower_bound_studytime, upper=upper_bound_studytime)
+   df['G3'] = df['G3'].clip(lower=lower_bound_G3, upper=upper_bound_G3)
+   ```
+
+4. **Impute Missing Data**:
+   If the outliers are due to missing or incorrect data, you might consider imputing the missing values with the mean, median, or mode.
+
+### Summary:
+- **Visualizations**: Box plots, scatter plots, and histograms help in identifying outliers visually.
+- **Statistical Methods**: Z-scores and IQR method can help in quantitatively detecting outliers.
+- **Handling Outliers**: Depending on the context, you can remove, transform, cap, or impute the outliers.
+
+By detecting and appropriately handling outliers, you can ensure that they don’t skew the results of your regression model.
