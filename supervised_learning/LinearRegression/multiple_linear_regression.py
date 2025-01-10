@@ -41,17 +41,21 @@ for column in df.select_dtypes(include=["category", "object"]):
 for column in df.select_dtypes(include=[np.number]).columns:
     fix_outliers(df, column)
 
+
+# Split the data for target and features
+y = df[['G1', 'G2', 'G3']]
+# Using single target as multi variate target requires a more complex algorithm
+X = df.drop(columns=['G3'])
+
 # Standardize the numerical features to reduce the dominance of large values
 # This process transforms each feature (column) to have a mean of 0 and a 
 # standard deviation of 1. It ensures that each feature contributes equally 
 # to the machine learning model.
+# Remember to stardize only the non target values.
 scaler = StandardScaler()
-df_standard = scaler.fit_transform(df) # This will generate a numpy array
+X_standard = scaler.fit_transform(X) # This will generate a numpy array
 # Convert back to pandas dataframe
-df = pd.DataFrame(df_standard, columns=df.columns)
-
-y = df[['G1', 'G2', 'G3']]
-X = df.drop(columns=['G1', 'G2', 'G3'])
+X = pd.DataFrame(X, columns=X.columns)
 
 # Split the data in training and test set
 X_train, X_test, y_train, y_test = train_test_split(
@@ -74,7 +78,7 @@ print(f"Mean squared error: {mse}")
 print(f"R2 Score: {r2}")
 
 '''Output
-Mean absolute error: 0.8327281620640697
-Mean squared error: 0.9957669889595735
-R2 Score: 0.10009327937694516
+Mean absolute error: 0.5087610787809732
+Mean squared error: 1.6116191208599588
+R2 Score: 0.9214037841614807
 '''
