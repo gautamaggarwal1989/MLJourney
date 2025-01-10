@@ -12,3 +12,69 @@ Where:
     β1,β2,…,βn are the coefficients of each feature,
     ϵϵ is the error term.
 '''
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import matplotlib.pyplot as plt
+
+from utils import find_outliers, fix_outliers
+
+
+df = pd.read_csv("student_mat.csv", delimiter=';')
+
+# Data Cleaning
+if df.isna().any().any():
+    print("Fixing null values")
+    for column in df.select_dtypes(include=[np.number]).columns:
+        df[column].fillna(df[column].median(), inplace=True)
+    for column in df.select_dtypes(include=['object', 'category']).columns:
+        df[column].fillna(df[column].mode()[0], inplace=True)
+
+# Encode category data to numerical representation to apply regression
+for column in df.select_dtypes(include=["category", "object"]):
+    df[column] = LabelEncoder().fit_transform(df[column])
+
+# Find and fix outliers
+for column in df.select_dtypes(include=[np.number]).columns:
+    fix_outliers(df, column)
+
+# Standardize the numerical features to reduce the dominance of large values
+# This process transforms each feature (column) to have a mean of 0 and a 
+# standard deviation of 1. It ensures that each feature contributes equally 
+# to the machine learning model.
+scaler = StandardScaler()
+df_standard = scaler.fit_transform(df) # This will generate a numpy array
+# Convert back to pandas dataframe
+df = pd.DataFrame(df_standard, columns=df.columns)
+
+y = df[['G1', 'G2', 'G3']]
+X = df.drop(columns=['G1', 'G2', 'G3'])
+
+# Split the data in training and test set
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+# Initialize the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Get the predictions to calculate the model accuracy on different metrics
+y_pred = model.predict(X_test)
+
+# Calculate all the metrics and print
+mae = mean_absolute_error(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred) # How well the model is a fit
+
+print(f"Mean absolute error: {mae}")
+print(f"Mean squared error: {mse}")
+print(f"R2 Score: {r2}")
+
+'''Output
+Mean absolute error: 0.8327281620640697
+Mean squared error: 0.9957669889595735
+R2 Score: 0.10009327937694516
+'''
