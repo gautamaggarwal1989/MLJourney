@@ -19,6 +19,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 from utils import find_outliers, fix_outliers
 
@@ -82,3 +83,20 @@ Mean absolute error: 0.5087610787809732
 Mean squared error: 1.6116191208599588
 R2 Score: 0.9214037841614807
 '''
+
+# Residual plot
+residuals = y_test - y_pred
+plt.scatter(y_pred, residuals)
+plt.axhline(y=0, color='r', linestyle='--')
+plt.xlabel("Predicted Values")
+plt.ylabel("Residuals")
+plt.title("Residual Plot")
+plt.show()
+
+# Scatter Plot
+plt.scatter(y_test, y_pred)
+plt.plot([y_test.min(), y_test.max()], [y_pred.min(), y_pred.max()], color='r', linestyle='--')
+plt.title("Scatter Plot")
+plt.xlabel("Actual Values")
+plt.ylabel("Predicted Values")
+plt.show()
