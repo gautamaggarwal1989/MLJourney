@@ -60,3 +60,4 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 
 print(f"Accuracy Score: {accuracy}")
+''' Accuracy Score: 0.9736842105263158 '''
