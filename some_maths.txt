@@ -1,0 +1,16 @@
+Standard Deviation
+The standard deviation of a feature is a measure of the spread or dispersion of that feature’s values in your dataset.
+s = root(sigma(xi-u)/n)
+where:
+xi is value for each columns
+u is the mean
+n is number of values in a feature
+
+------------------------------------------
+Z-Score Formula:
+The z-score is calculated as:
+z= (x−μ)/σ
+Where:
+    x = the value of the data point
+    μ = the mean of the feature
+    σ = the standard deviation of the feature

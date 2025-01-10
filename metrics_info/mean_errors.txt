@@ -1,0 +1,93 @@
+### **Mean Absolute Error (MAE)** and **Mean Squared Error (MSE)** are two commonly used metrics for evaluating the performance of regression models. Let’s break down their definitions and provide simple, easy-to-understand examples.
+
+---
+
+### **Mean Absolute Error (MAE)**
+
+**Definition**:
+- MAE measures the average magnitude of errors in a set of predictions, without considering their direction (whether they are over or under the actual value).
+- It is the mean of the absolute differences between the predicted values and the actual values.
+
+**Formula**:
+\[
+\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+\]
+Where:
+- \( y_i \) = Actual value.
+- \( \hat{y}_i \) = Predicted value.
+- \( n \) = Number of observations.
+
+**Example**:
+Imagine a scenario where you're predicting the weight of apples, and you have the following actual and predicted weights (in kilograms):
+
+| Actual Weight (\(y_i\)) | Predicted Weight (\(\hat{y}_i\)) | Error (\(y_i - \hat{y}_i\)) | Absolute Error (\(|y_i - \hat{y}_i|\)) |
+|-------------------------|-----------------------------------|-----------------------------|-------------------------------------|
+| 1.0                     | 1.2                               | -0.2                        | 0.2                                 |
+| 1.5                     | 1.4                               | 0.1                         | 0.1                                 |
+| 2.0                     | 2.1                               | -0.1                        | 0.1                                 |
+| 1.8                     | 1.7                               | 0.1                         | 0.1                                 |
+
+\[
+\text{MAE} = \frac{0.2 + 0.1 + 0.1 + 0.1}{4} = 0.125
+\]
+
+**Interpretation**:
+- The average absolute error between the predicted and actual weights is 0.125 kg.
+
+---
+
+### **Mean Squared Error (MSE)**
+
+**Definition**:
+- MSE measures the average of the squares of the errors—that is, the average squared difference between the predicted and actual values.
+- Squaring the errors emphasizes larger errors more than smaller ones.
+
+**Formula**:
+\[
+\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+\]
+Where:
+- \( y_i \) = Actual value.
+- \( \hat{y}_i \) = Predicted value.
+- \( n \) = Number of observations.
+
+**Example**:
+Using the same apple weights:
+
+| Actual Weight (\(y_i\)) | Predicted Weight (\(\hat{y}_i\)) | Error (\(y_i - \hat{y}_i\)) | Squared Error (\((y_i - \hat{y}_i)^2\)) |
+|-------------------------|-----------------------------------|-----------------------------|----------------------------------------|
+| 1.0                     | 1.2                               | -0.2                        | 0.04                                   |
+| 1.5                     | 1.4                               | 0.1                         | 0.01                                   |
+| 2.0                     | 2.1                               | -0.1                        | 0.01                                   |
+| 1.8                     | 1.7                               | 0.1                         | 0.01                                   |
+
+\[
+\text{MSE} = \frac{0.04 + 0.01 + 0.01 + 0.01}{4} = 0.0175
+\]
+
+**Interpretation**:
+- The average of the squared differences between the predicted and actual weights is 0.0175 kg².
+
+---
+
+### **Comparison and Key Differences**:
+
+1. **Sensitivity to Outliers**:
+   - **MAE** treats all errors equally, making it a more robust measure when dealing with data containing outliers.
+   - **MSE** squares the errors, which means larger errors have a disproportionate impact. This makes MSE more sensitive to outliers.
+
+2. **Interpretation**:
+   - **MAE** is easier to interpret because it is in the same units as the target variable.
+   - **MSE** provides more weight to larger errors, which can be useful if you want to penalize larger errors more.
+
+3. **Use Cases**:
+   - **MAE** is often preferred when the distribution of errors is uniform and when we want a straightforward average error.
+   - **MSE** is preferred when large errors are particularly undesirable and need to be penalized more heavily.
+
+---
+
+### **Which One to Use?**
+- **MAE** is typically used when all errors are equally important.
+- **MSE** is used when larger errors are more significant, and minimizing large errors is crucial.
+
+Both metrics are useful for different scenarios, and sometimes it’s helpful to use both to get a comprehensive understanding of model performance.
