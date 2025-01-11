@@ -54,11 +54,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from utils import fix_outliers
+from utils.utils import fix_outliers
 
 
 # import the csv
-df = pd.read_csv("student_mat.csv", delimiter=";")
+df = pd.read_csv("datasets/student_mat.csv", delimiter=";")
 # Clean the data in case if something is missing.
 if df.isna().any().any():
     df = df.interpolate()

@@ -17,9 +17,9 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.metrics import accuracy_score
 import numpy as np
 
-from utils import fix_outliers
+from utils.utils import fix_outliers
 
-df = pd.read_csv("breast_cancer.csv")
+df = pd.read_csv("datasets/breast_cancer.csv")
 
 # Fix the missing data inputs
 if df.isna().any().any():

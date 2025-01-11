@@ -20,10 +20,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 
-from utils import find_outliers, fix_outliers
+from utils.utils import find_outliers, fix_outliers
 
 
-df = pd.read_csv("student_mat.csv", delimiter=';')
+df = pd.read_csv("datasets/student_mat.csv", delimiter=';')
 
 # Data Cleaning
 if df.isna().any().any():
