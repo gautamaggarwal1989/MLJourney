@@ -15,9 +15,9 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
 
 from utils.utils import fix_outliers
+
 
 df = pd.read_csv("datasets/winequality-red.csv")
 
