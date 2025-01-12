@@ -15,6 +15,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 
 from utils.utils import fix_outliers
 
@@ -30,7 +31,7 @@ if df.isna().any().any():
 # All values are numerical so there is no need for encoding
 # Find and fix the outliers using IQR
 
-y = df['quality']
+y = df['quality'] 
 X = df.drop(columns=['quality'])
 
 for column in X:
@@ -43,7 +44,7 @@ X_standardized = scaler.fit_transform(X)
 X = pd.DataFrame(X_standardized)
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.3, random_state=42
+    X, y, test_size=0.3, random_state=42, stratify=y
 )
 
 model = LogisticRegression(
@@ -61,11 +62,12 @@ print(f"Accuracy Score: {accuracy}")
 print(f"Confusion Matrix: {confusion}")
 
 '''Output
-Accuracy Score: 0.58125
-Confusion Matrix: 
-[[ 0  0  1  0  0]
-[ 0  1  7  2  0]
-[ 0  0 97 33  0]
-[ 0  0 46 73 13]
-[ 0  0  2 30 15]]
+Accuracy Score: 0.5916666666666667
+Confusion Matrix:
+[[  0   0   2   1   0   0]
+[  0   0  13   3   0   0]
+[  0   0 155  49   0   0]
+[  0   0  65 123   4   0]
+[  0   0   2  52   6   0]
+[  0   0   0   3   2   0]]
 '''
