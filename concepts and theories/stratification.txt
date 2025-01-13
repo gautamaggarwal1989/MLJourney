@@ -1,0 +1,14 @@
+Stratification is a technique used in machine learning, particularly in classification tasks, to ensure that each class or group is properly represented in both the training and testing datasets. When you split a dataset, especially if there is class imbalance (i.e., one class is much more frequent than others), stratification helps maintain the proportions of each class in both the training and test sets. This is especially important to avoid training a model on a skewed representation of the data, which can lead to poor performance.
+What Does Stratification Do?
+
+    In Classification: Stratification divides the data in a way that preserves the percentage of samples for each class in both training and testing sets.
+        Example: If you have a binary classification problem with 80% class 0 and 20% class 1, stratification ensures that the same proportion of 80% class 0 and 20% class 1 is preserved in both the training and testing sets.
+    In Regression: Stratification is not directly applicable in the same way, because regression tasks involve continuous target values, not discrete classes. However, you might use quantile-based stratification (i.e., splitting data into equal-sized bins based on target values) to ensure that the data is split evenly across different ranges of the target variable. This can be useful when you have a skewed distribution of the target variable.
+
+Is Stratification Applicable in Decision Tree Regression?
+
+    For Decision Tree Regression: Stratification does not apply in the traditional sense, as decision tree regression is a regression (continuous target) task, not classification. However, if you want to ensure that your training and testing sets represent different ranges of the target variable well (for example, if the target variable is heavily skewed), you can apply quantile-based stratified splitting. This ensures the data is split into bins based on the values of the target variable so that both training and testing sets have a similar distribution of target values.
+
+When to Use Stratified Splitting in Regression:
+
+    You might use quantile-based stratification (using something like StratifiedShuffleSplit or train_test_split with stratify on the target variable in sklearn), especially when your target variable is skewed and you want to ensure that the target distribution is similar across the training and test sets.
