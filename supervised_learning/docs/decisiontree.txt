@@ -1,0 +1,53 @@
+How Decision Trees Work
+
+A Decision Tree is a supervised machine learning algorithm used for both classification and regression tasks. It works by splitting the dataset into subsets based on the features in a way that maximizes the homogeneity of the target variable in each subset.
+
+    A node in a Decision Tree represents a decision based on a feature.
+    A leaf node represents a prediction (e.g., class label for classification or a value for regression).
+    The algorithm recursively divides the data into smaller subsets, choosing the feature that best splits the data at each step.
+
+Steps in Building a Decision Tree:
+
+    Select the best feature to split the data based on a measure (such as entropy or Gini index).
+    Split the data into subsets based on the chosen feature.
+    Repeat the process for each subset, creating new nodes and subtrees.
+    Stop splitting when:
+        All data points in a subset belong to the same class (pure node).
+        There are no more features to split on.
+        A pre-defined stopping criterion (like maximum depth or minimum samples per leaf) is reached.
+
+Entropy and Information Gain
+
+Entropy and Information Gain are key concepts in Decision Trees for classification tasks. These metrics are used to evaluate how "pure" the data is at each split.
+1. Entropy:
+
+    Entropy measures the impurity or disorder of a set of examples. If the data is perfectly pure (i.e., all examples belong to the same class), the entropy is 0. If the data is evenly distributed across classes, the entropy is 1.
+    Entropy is calculated using the formula:
+    Entropy(S)=−∑i=1kpilog⁡2pi
+    Entropy(S)=−i=1∑k​pi​log2​pi​ where pipi​ is the probability of class ii in set SS, and kk is the number of classes.
+
+2. Information Gain:
+
+    Information Gain measures how much uncertainty (entropy) is reduced after a split. It quantifies the effectiveness of a feature in classifying the data. The higher the information gain, the better the feature is at reducing entropy and separating the classes.
+    Information Gain is calculated as the difference between the entropy before the split and the weighted sum of entropy after the split:
+    Information Gain=Entropy(before split)−∑(∣Sv∣∣S∣×Entropy(Sv))
+    Information Gain=Entropy(before split)−∑(∣S∣∣Sv​∣​×Entropy(Sv​)) where SvSv​ represents the subsets formed after splitting the data on feature vv, and ∣S∣∣S∣ is the total number of instances.
+
+In simple terms:
+
+    Higher Information Gain means the feature is better at splitting the data.
+    The algorithm chooses the feature with the highest Information Gain at each step.
+
+Overfitting in Decision Trees
+
+    Overfitting happens when a Decision Tree becomes too complex, capturing noise and small fluctuations in the training data instead of general patterns.
+    Signs of Overfitting:
+        A model that performs well on the training data but poorly on the test data.
+        The tree has many levels or very small leaf nodes (overly deep tree).
+
+How to Prevent Overfitting:
+
+    Prune the tree: Reduce the tree's complexity by cutting back nodes that do not add significant predictive power.
+    Set a maximum depth: Limit the depth of the tree to prevent it from growing too deep.
+    Minimum samples per leaf: Set a minimum number of samples required to form a leaf node.
+    Minimum samples per split: Set a minimum number of samples required to split an internal node.
