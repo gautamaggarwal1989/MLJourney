@@ -1,4 +1,4 @@
-# MachineLearningExamples
+# MLJourney
 Learning machine learning by examples
 To cover the essential topics under the umbrella of supervised learning, unsupervised learning, reinforcement learning, and natural language processing (NLP), here’s a comprehensive outline to guide your learning:
 1. Supervised Learning
